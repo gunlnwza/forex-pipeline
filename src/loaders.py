@@ -4,7 +4,13 @@ from datetime import datetime, timedelta, timezone
 import requests
 import pandas as pd
 
-from data_loader import DataLoader
+
+class DataLoader:
+    def __init__(self):
+        pass
+
+    def download(self, tickers: list[str], timeframe="1d", start=None, end=None):
+        raise NotImplementedError
 
 
 class PolygonDataLoader(DataLoader):
@@ -63,3 +69,27 @@ class PolygonDataLoader(DataLoader):
         })
         df.set_index("timestamp", inplace=True)
         return df
+
+
+class AlphaVantageDataLoader(DataLoader):
+    def __init__(self):
+        super().__init__()
+
+    def download(self, tickers: list[str], timeframe="1d", start=None, end=None):
+        pass
+
+
+class OandaDataLoader(DataLoader):
+    def __init__(self):
+        super().__init__()
+
+    def download(self, tickers: list[str], timeframe="1d", start=None, end=None):
+        pass
+
+
+def get_loader(name: str) -> DataLoader:
+    match name.lower():
+        case "polygon": return PolygonDataLoader()
+        case "alpha": return AlphaVantageDataLoader()
+        case "oanda": return OandaDataLoader()
+        case _: raise ValueError("Unknown data loader")
