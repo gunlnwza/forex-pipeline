@@ -9,7 +9,7 @@ class DataLoader:
     def __init__(self):
         pass
 
-    def download(self, tickers: list[str], timeframe="1d", start=None, end=None):
+    def download(self, tickers: list[str], *, timeframe="1d", start=None, end=None):
         raise NotImplementedError
 
 
@@ -19,7 +19,7 @@ class PolygonDataLoader(DataLoader):
         self.api_key = api_key
         self.base_url = "https://api.polygon.io"
 
-    def download(self, tickers: list[str], timeframe="1d", start=None, end=None) -> dict:
+    def download(self, tickers: list[str], *, timeframe="1d", start=None, end=None) -> dict[str, pd.DataFrame]:
         result = {}
         for ticker in tickers:
             df = self._download_single_ticker(ticker, timeframe, start, end)
@@ -43,8 +43,10 @@ class PolygonDataLoader(DataLoader):
         # Default to last 30 days
         if not end:
             end = datetime.now(timezone.utc)
+            end = end.strftime("%Y-%m-%d")
         if not start:
             start = end - timedelta(days=30)
+            start = start.strftime("%Y-%m-%d")
 
         url = f"{self.base_url}/v2/aggs/ticker/C:{ticker}/range/{tf_multiplier}/{tf_unit}/{start}/{end}"
         params = {"adjusted": "true", "sort": "asc", "apiKey": self.api_key}
@@ -75,7 +77,7 @@ class AlphaVantageDataLoader(DataLoader):
     def __init__(self):
         super().__init__()
 
-    def download(self, tickers: list[str], timeframe="1d", start=None, end=None):
+    def download(self, tickers: list[str], *, timeframe="1d", start=None, end=None):
         pass
 
 
@@ -83,7 +85,7 @@ class OandaDataLoader(DataLoader):
     def __init__(self):
         super().__init__()
 
-    def download(self, tickers: list[str], timeframe="1d", start=None, end=None):
+    def download(self, tickers: list[str], *, timeframe="1d", start=None, end=None):
         pass
 
 
