@@ -4,3 +4,10 @@ __pycache__
 
 # Mac
 .DS_Store
+
+# Log
+*.log
+
+# Personal
+*.idea
+*.env
