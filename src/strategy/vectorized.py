@@ -1,14 +1,6 @@
 import pandas as pd
 
-# Abstract class for strategies
-
-
-class Strategy:
-    def __init__(self, name: str):
-        self.name = name
-    
-    def __str__(self):
-        return self.name
+from base_strategy import Strategy
 
 
 class VectorizedStrategy(Strategy):
@@ -17,15 +9,6 @@ class VectorizedStrategy(Strategy):
 
     def generate_signal(self, full_df: pd.DataFrame):
         # return series of best action: BUY, HOLD, or SELL
-        raise NotImplementedError
-
-
-class RowByRowStrategy(Strategy):
-    def __init__(self, name: str):
-        super().__init__(name)
-
-    def generate_signal(self, history_df: pd.DataFrame):
-        # return the best action: BUY, HOLD, or SELL
         raise NotImplementedError
 
 
