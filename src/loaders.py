@@ -19,7 +19,7 @@ class PolygonDataLoader(DataLoader):
         self.api_key = api_key
         self.base_url = "https://api.polygon.io"
 
-    def download(self, tickers: list[str], *, timeframe="1d", start=None, end=None) -> dict[str, pd.DataFrame]:
+    def download(self, tickers: list[str], *, timeframe="1D", start=None, end=None) -> dict[str, pd.DataFrame]:
         result = {}
         for ticker in tickers:
             df = self._download_single_ticker(ticker, timeframe, start, end)
@@ -28,13 +28,13 @@ class PolygonDataLoader(DataLoader):
     
     def _download_single_ticker(self, ticker: str, timeframe: str, start=None, end=None) -> pd.DataFrame:  # TODO
         match timeframe:
-            case "1d":
+            case "1D":
                 tf_multiplier = 1
                 tf_unit = "day"
-            case "1w":
+            case "1W":
                 tf_multiplier = 1
                 tf_unit = "week"
-            case "1m":
+            case "1M":
                 tf_multiplier = 1
                 tf_unit = "month"
             case _:
